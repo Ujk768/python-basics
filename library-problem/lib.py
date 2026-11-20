@@ -23,9 +23,9 @@ class Book:
 
 # All the details about the copy of a particular Book
 class BookCopy():
-    def __init__(self, book: Book,copy_id: str, status: CopyStatus):
+    def __init__(self, book: Book,copy_id: str):
         self.book = book
-        self.status = status
+        self.status = CopyStatus.AVAILABLE
         self.copy_id = copy_id
 
     def mark_borrowed(self):
@@ -81,40 +81,50 @@ class Loan:
 
 class Fine(ABC):
     @abstractmethod
-    def calculate_fine(self):
+    def calculate_fine(self,days_overdue:int):
         pass
 
 class FlatPerDayRate(Fine):
-    def __init__(self,fine_amount: int,days_overdue: int):
+    def __init__(self,fine_amount: int):
         self.fine_amount = fine_amount
-        self.days_overdue = days_overdue
 
-    def calculate_fine(self):
-        return self.fine_amount * self.days_overdue
+    def calculate_fine(self,days_overdue: int):
+        return self.fine_amount * days_overdue
 
 class LoanRegistry:
     def __init__(self):
-        # self.loans = []
         self.active_by_copy = {}
         self.active_by_member = {}
 
-    def add(self,loan: Loan):
-        self.active_by_copy[loan.book_copy.copy_id] = self.active_by_copy.get(loan.book_copy.copy_id,[]).append(loan)
-        self.active_by_member[loan.member.member_id]= self.active_by_member.get(loan.member.member_id,[]).append(loan)
-
-    def close(self,copy_id:str):
-        if self.active_by_copy.get(copy_id,[]):
-            loan :Loan = self.active_by_copy[copy_id]
-            self.active_by_copy.pop(copy_id,None)
-            self.active_by_member.pop(loan.member.member_id,None)
+    def add(self,loan:Loan):
+        if loan.book_copy.copy_id in self.active_by_copy:
+            raise ValueError(f'This Copy is already borrowed. Cant borrow again')
         else:
-            raise ValueError("Loan Not Found")
+            self.active_by_copy[loan.book_copy.copy_id] = loan
+            loans_for_member = self.active_by_member.get(loan.member.member_id,[])
+            loans_for_member.append(loan)
+            self.active_by_member[loan.member.member_id] = loans_for_member
+        
+    def close(self,copy_id:str):
+        if copy_id in self.active_by_copy:        
+            loan : Loan = self.active_by_copy.pop(copy_id)
+            member_loans = self.active_by_member.get(loan.member.member_id,None)
+            if len(member_loans):
+                member_loans.remove(loan)
+                self.active_by_member[loan.member.member_id] = member_loans
+            else:
+                del self.active_by_member[loan.member.member_id]
+            return loan
+        else:
+            raise ValueError(f"Cant close copy that hasnt been borrowed")
+        
 
-    def get_active_loan(self,copy_id):
-        return self.active_by_copy[copy_id] if self.active_by_copy[copy_id] else None
+    def get_active_loan(self,copy_id:str):
+        return self.active_by_copy.get(copy_id,None)
 
     def active_count(self,member:Member):
-        return len(self.active_by_member[member.member_id]) if self.active_by_member[member.member_id] else 0
+        return len(self.active_by_member.get(member.member_id,[]))
+
 
 
         
@@ -122,4 +132,10 @@ class LoanRegistry:
 
 
 class Library:
-    pass
+    def __init__(self,loan_registry: LoanRegistry,fine: Fine):
+        self.loan_registry = loan_registry
+        self.fine = fine
+    def borrow(self,copy_id):
+        pass
+    def return_copy(self):
+        pass        
