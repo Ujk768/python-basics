@@ -25,7 +25,6 @@ async def main():
     with ProcessPoolExecutor() as executor:
         task1 = loop.run_in_executor(executor, fetch_data, 1)
         task2 = loop.run_in_executor(executor, fetch_data, 2)
-
         result1 = await task1
         print("Process 1 fully completed")
         result2 = await task2
@@ -44,3 +43,12 @@ if __name__ == "__main__":
 
     t2 = time.perf_counter()
     print(f"Finished in {t2 - t1:.2f} seconds")
+
+
+  # create and schedule co routines onto the event loop
+  # awaiting task 1 which is a process that runs in the background and the main process is suspended
+  # since its a waits for the other process to complete this coroutine is suspended
+  # it runs the next co routine which runs on another process in the background 
+  # once the first proces is complete the main co routine is active again and it runs  and waits for the second task to finish
+  # once the second task finishes  it then completes the main co routine
+
