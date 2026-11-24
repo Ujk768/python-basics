@@ -44,9 +44,7 @@ class BookCopy():
     def mark_lost(self):
         self.status = CopyStatus.LOST
         
-
 class Member:
-
     LIMITS = {
         MembershipType.STUDENT : 3,
         MembershipType.REGULAR: 5,
@@ -125,12 +123,6 @@ class LoanRegistry:
     def active_count(self,member:Member):
         return len(self.active_by_member.get(member.member_id,[]))
 
-
-
-        
-        
-
-
 class Library:
     def __init__(self,loan_registry: LoanRegistry,fine: Fine):
         self.loan_registry = loan_registry
@@ -139,3 +131,4 @@ class Library:
         pass
     def return_copy(self):
         pass        
+
