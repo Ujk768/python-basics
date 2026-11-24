@@ -124,4 +124,93 @@ Vertical Scaling -> giving the existing machine more CPU and power
 # Launching a EC2 Instance
 
 - Start by selecting an AMI(Amazon Machine Image) which defines the OS and can include additional s/w.  You can also choose instance type which determines underlying h/w resources.
--   
+
+# Connect to the instance
+You can connect to an EC2 instance in various ways. Applications can interact with services running on the instance over the network.
+
+Users or administrators can connect using SSH for Linux instances or Remote Desktop Protocol (RDP) for Windows instances. Alternatively, AWS services like AWS Systems Manager offer a secure and simplified method for accessing instances.
+
+# Use the instance
+After you are connected to the instance, you can begin using it to run commands, install software, add storage, organize files, and perform other tasks.
+
+Amazon EC2 offers a broad range of instance types, each tailored to meet specific use case requirements. These instances come with varying combinations of CPU, memory, storage, and networking capabilities, so you can choose the right mix of resources to optimize performance for your applications.
+
+Different types of instances solve different purposes
+Instance types are grouped by instance families which offer varying combinaitons of CPU , storage, and network capacity
+
+- General Purpose
+
+balanced cmopute, meeory and network resources
+ideal fro webservers and ocde repositories
+
+- Compute Optimized
+Gaming servers , High performance computing, ML tasks
+
+- Memory Optimized 
+Fast perofrmance for workload that process large data sets in memory
+
+- Accelerated Computing
+Accelerated computing instances use hardware accelerators, like graphics processing units (GPUs), to efficiently handle tasks, such as floating-point calculations, graphics processing, and machine learning.
+
+- Storage Optimized
+Storage optimized instances are designed for workloads that require high performance for locally stored data, such as large databases, data warehousing, and I/O-intensive applications.
+
+
+# How to Provision AWS Resources
+
+All interactions with services are powered by APIs. You can access these APIs through three primary methods: the AWS Management Console, the AWS CLI, or the AWS SDK. Let's review these methods.
+
+- The AWS Management Console is a web interface for managing AWS services, offering quick access to services, search functionality, and simplified workflows. With the mobile app, you monitor resources, view alarms, and check billing, supporting multiple logged-in identities at once.
+
+
+Good for: Users who prefer a visual, easy-to-use interface for managing and configuring AWS services
+
+# AWS CLI
+With the AWS CLI, you manage multiple AWS services directly from the command line across Windows, macOS, and Linux. You can automate tasks through scripts, such as launching EC2 instances.
+
+Good for: Advanced users and developers who need to automate tasks, script actions, and manage AWS resources efficiently from the command line
+# AWS SDK
+The AWS SDK simplifies integrating AWS services into your applications by providing APIs for various programming languages. AWS offers documentation and sample code for languages like C++, Java, and .NET to help you get started.
+
+
+
+Good for: Developers looking to integrate AWS services into their applications using language-specific APIs
+
+
+# Compute and shared responsibility
+
+An unmanaged service like Amazon EC2 requires you to perform all of the necessary security configuration and management tasks. When you deploy an EC2 instance, you are responsible for configuring security, managing the guest operating system (OS), applying updates, and setting up firewalls (security groups). 
+
+The customer is responsible for configuring, securing, and managing the operating system, networking, and applications on their EC2 instances.
+
+To launch an EC2 instance for a web server, configure the AMI to define the operating system and software; select the instance type to allocate CPU, memory, and storage; and set up storage options, including the type and size of the volume.Load balancing, permissions, and instance termination behavior are not required when launching a basic Amazon EC2 web server.
+
+An AMI is a pre-configured virtual machine image that contains the operating system, application server, and applications. This helps to launch EC2 instances quickly with the desired software and settings.
+
+
+# AWS Pricing Options
+On-Demand Instances:
+
+Pay only for the compute capacity you consume with no upfront payments or long-term commitments required.
+
+# Savings Plans:
+
+Save up to 72 percent across a variety of instance types and services by committing to a consistent usage level for 1 or 3 years.
+
+# Reserved Instances:
+
+Get a savings of up to 75 percent by committing to a 1-year or 3-year term for predictable workloads using specific instance families and AWS Regions.
+
+# Dedicated Hosts:
+
+Reserve an entire physical server for your exclusive use. This option offers full control and is ideal for workloads with strict security or licensing needs.
+
+# Spot Instances:
+
+Bid on spare compute capacity at up to 90 percent off the On-Demand price, with the flexibility to be interrupted when AWS reclaims the instance.
+
+# Dedicated Instances:
+
+Pay for instances running on hardware dedicated solely to your account. This option provides isolation from other AWS customers.
+
+Dedicated Hosts provide exclusive use of physical servers, offering full control over instance placement and resource allocation. This makes them ideal for security- or compliance-driven workloads. 
